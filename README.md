@@ -58,7 +58,7 @@ financialresearcher/
     If your agents use external APIs (like Groq or Serper), you'll likely need to set up environment variables. Create a `.env` file in the project root and add your API keys:
 
     ```env
-    GROQ_API_KEY='your_groq_api_key'
+    GEMINI_API_KEY='your_gemini_api_key'
     SERPER_API_KEY='your_serper_api_key'
     # Add any other necessary API keys
     ```
