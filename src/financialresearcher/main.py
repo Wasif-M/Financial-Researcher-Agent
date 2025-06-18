@@ -12,10 +12,8 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 def run():
     """Run the Crew"""
-    inputs={
-        "company":"VisionX"
-    }
-    results=Financialresearcher().crew().kickoff(inputs=inputs)
+    inputs = {"company": company}
+    results = Financialresearcher().crew().kickoff(inputs=inputs)
     print(results.raw)
 
 

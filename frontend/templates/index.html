@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Research Pro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Global reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: backgroundShift 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-20px) translateY(-20px); }
+            50% { transform: translateX(20px) translateY(-10px); }
+            75% { transform: translateX(-10px) translateY(20px); }
+        }
+
+        /* Container and layout */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Modern glass morphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+            transition: all 0.3s ease;
+            animation: cardEntrance 1s ease-out;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 16px 64px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Brand and header styles */
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #f0f8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .brand p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Modern button styles */
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            box-shadow: 0 8px 32px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 12px 48px rgba(17, 153, 142, 0.4);
+        }
+
+        /* Progress page styles */
+        .progress-container {
+            text-align: center;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .company-name {
+            color: #ffd700;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            height: 16px;
+            margin: 25px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4aa 0%, #00d4ff 100%);
+            border-radius: 12px;
+            transition: width 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .agent-status {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+
+        /* Report page styles */
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .report-title {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 24px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4);
+        }
+
+        .report-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom scrollbar */
+        .report-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .report-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .report-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* Hidden class for page transitions */
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .brand h1 {
+                font-size: 2.2rem;
+            }
+
+            .report-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading animation for buttons */
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="glass-card">
+            <div class="brand">
+                <h1><i class="fas fa-chart-line"></i> Financial Research Pro</h1>
+                <p>Get comprehensive financial insights for any company with AI-powered analysis</p>
+            </div>
+            
+            <form id="research-form">
+                <div class="form-group">
+                    <label for="company" class="form-label">
+                        <i class="fas fa-building"></i> Company Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="company" 
+                        name="company" 
+                        class="form-input" 
+                        placeholder="Enter company name (e.g., Apple, Tesla, Microsoft)"
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit" class="btn-primary" id="generate-btn">
+                    <i class="fas fa-rocket"></i> Generate Financial Report
+                </button>
+            </form>
+        </div>
+
+        <!-- Progress Page -->
+        <div id="progress-page" class="glass-card hidden">
+            <div class="progress-container">
+                <div class="loader"></div>
+                <h2 class="progress-title">
+                    Generating Report for <span id="company-display" class="company-name"></span>
+                </h2>
+                
+                <div id="current-agent-indicator" style="margin: 18px 0; font-size: 1.2rem; color: #ffd700; font-weight: bold;">
+                    <!-- Agent name will be injected here -->
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+                </div>
+                
+                <p id="agent-status" class="agent-status">Initializing research agents...</p>
+            </div>
+        </div>
+
+        <!-- Report Page -->
+        <div id="report-page" class="glass-card hidden" style="max-width: 900px;">
+            <div class="report-header">
+                <h2 class="report-title">
+                    <i class="fas fa-file-alt"></i> Financial Report
+                </h2>
+                <button id="download-btn" class="download-btn">
+                    <i class="fas fa-download"></i> Download Report
+                </button>
+            </div>
+            
+            <div id="report-content" class="report-content">
+                <!-- Report content will be loaded here -->
+            </div>
+            
+            <div class="action-buttons">
+                <button id="new-report-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> New Report
+                </button>
+                <button id="share-btn" class="btn-secondary">
+                    <i class="fas fa-share"></i> Share Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application state management
+        const AppState = {
+            currentPage: 'home',
+            companyName: '',
+            reportData: null,
+            progressInterval: null
+        };
+
+        // DOM element references - cached for performance
+        const Elements = {
+            homePage: document.getElementById('home-page'),
+            progressPage: document.getElementById('progress-page'),
+            reportPage: document.getElementById('report-page'),
+            researchForm: document.getElementById('research-form'),
+            generateBtn: document.getElementById('generate-btn'),
+            companyDisplay: document.getElementById('company-display'),
+            progressBar: document.getElementById('progress-bar'),
+            agentStatus: document.getElementById('agent-status'),
+            reportContent: document.getElementById('report-content'),
+            downloadBtn: document.getElementById('download-btn'),
+            newReportBtn: document.getElementById('new-report-btn'),
+            shareBtn: document.getElementById('share-btn')
+        };
+
+        // Agent stages for progress tracking
+        const AGENT_STAGES = ['Researcher', 'Analyst', 'Done'];
+
+        /**
+         * Calculate progress percentage based on current agent stage
+         * Ensures proper progress bar visualization
+         */
+        function calculateProgressPercentage(currentAgent) {
+            const stageIndex = AGENT_STAGES.indexOf(currentAgent);
+            if (stageIndex === -1) return 0;
+            return Math.round((stageIndex / (AGENT_STAGES.length - 1)) * 100);
+        }
+
+        /**
+         * Page navigation system with smooth transitions
+         * Handles showing/hiding different application views
+         */
+        function navigateToPage(pageName) {
+            // Hide all pages first
+            Object.values(Elements).forEach(element => {
+                if (element && element.classList.contains('glass-card')) {
+                    element.classList.add('hidden');
+                }
+            });
+
+            // Show target page
+            const targetPage = Elements[`${pageName}Page`];
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                AppState.currentPage = pageName;
+            }
+        }
+
+        /**
+         * Progress polling mechanism
+         * Continuously checks server for progress updates during report generation
+         */
+        function startProgressPolling() {
+            const pollProgress = async () => {
+                try {
+                    const response = await fetch('/progress');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const progressData = await response.json();
+                    updateProgressDisplay(progressData);
+                    
+                    // Check if process is complete
+                    if (progressData.done) {
+                        clearInterval(AppState.progressInterval);
+                        setTimeout(() => loadReportData(), 800); // Small delay for better UX
+                    }
+                } catch (error) {
+                    console.error('Progress polling error:', error);
+                    Elements.agentStatus.textContent = 'Error checking progress. Please refresh the page.';
+                }
+            };
+
+            // Start immediate poll and set interval
+            pollProgress();
+            AppState.progressInterval = setInterval(pollProgress, 1000);
+        }
+
+        /**
+         * Update progress display elements
+         * Handles progress bar and status text updates
+         */
+        function updateProgressDisplay(progressData) {
+            const currentAgent = progressData.current_agent || 'Starting...';
+            const percentage = calculateProgressPercentage(progressData.current_agent);
+            
+            // Update progress bar
+            Elements.progressBar.style.width = `${percentage}%`;
+            
+            // Update status text with more informative messages
+            const statusMessages = {
+                'Researcher': 'Gathering financial data and market intelligence...',
+                'Analyst': 'Analyzing data and generating insights...',
+                'Done': 'Report completed successfully!',
+                'Starting...': 'Initializing research agents...'
+            };
+            
+            Elements.agentStatus.textContent = statusMessages[currentAgent] || `Current Agent: ${currentAgent}`;
+
+            // NEW: Show which agent is working
+            const agentIndicator = document.getElementById('current-agent-indicator');
+            if (currentAgent === 'Done' || currentAgent === 'Starting...') {
+                agentIndicator.textContent = '';
+            } else {
+                agentIndicator.innerHTML = '<i class="fas fa-user-cog"></i> Working Agent: <span style="color:#00d4aa">' + currentAgent + '</span>';
+            }
+        }
+
+        /**
+         * Load and display the generated report
+         * Fetches report data from server and navigates to report view
+         */
+        async function loadReportData() {
+            try {
+                const response = await fetch('/report');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const reportHtml = await response.text();
+                
+                // Extract report content (assumes server returns full HTML, extract body content)
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(reportHtml, 'text/html');
+                const reportText = doc.querySelector('.report-block')?.textContent || reportHtml;
+                
+                AppState.reportData = reportText;
+                // Remove markdown symbols (##, **) for display only
+                const cleanedReportText = reportText
+                    .replace(/^\s*##+\s?/gm, '') // Remove headings like ##
+                    .replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold **text**
+                Elements.reportContent.textContent = cleanedReportText;
+                navigateToPage('report');
+                
+            } catch (error) {
+                console.error('Error loading report:', error);
+                Elements.agentStatus.textContent = 'Error loading report. Please try again.';
+            }
+        }
+
+        /**
+         * Handle form submission for new report generation
+         * Validates input and initiates the research process
+         */
+        async function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const companyInput = document.getElementById('company');
+            const companyName = companyInput.value.trim();
+            
+            // Input validation
+            if (!companyName) {
+                companyInput.focus();
+                return;
+            }
+
+            // Store company name and update display
+            AppState.companyName = companyName;
+            Elements.companyDisplay.textContent = companyName;
+
+            // Show loading state on button
+            Elements.generateBtn.classList.add('btn-loading');
+            
+            try {
+                // Submit form data to server
+                const formData = new FormData();
+                formData.append('company', companyName);
+                
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Navigate to progress page and start polling
+                navigateToPage('progress');
+                startProgressPolling();
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('Error starting research. Please try again.');
+            } finally {
+                // Remove loading state
+                Elements.generateBtn.classList.remove('btn-loading');
+            }
+        }
+
+        /**
+         * Handle report download
+         * Triggers file download from server
+         */
+        async function handleReportDownload() {
+            try {
+                const response = await fetch('/download');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Create download link and trigger
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = `${AppState.companyName}_financial_report.md`;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                window.URL.revokeObjectURL(url);
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Error downloading report. Please try again.');
+            }
+        }
+
+        /**
+         * Handle report sharing
+         * Copies report content to clipboard
+         */
+        async function handleReportShare() {
+            try {
+                if (navigator.clipboard && AppState.reportData) {
+                    await navigator.clipboard.writeText(AppState.reportData);
+                    
+                    // Provide user feedback
+                    const originalText = Elements.shareBtn.innerHTML;
+                    Elements.shareBtn.innerHTML = '<i class="fas fa-check"></i> Copied to Clipboard!';
+                    Elements.shareBtn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                    
+                    setTimeout(() => {
+                        Elements.shareBtn.innerHTML = originalText;
+                        Elements.shareBtn.style.background = '';
+                    }, 2000);
+                } else {
+                    throw new Error('Clipboard API not supported');
+                }
+            } catch (error) {
+                console.error('Share error:', error);
+                alert('Could not copy to clipboard. Please select and copy the text manually.');
+            }
+        }
+
+        /**
+         * Reset application to initial state
+         * Clears data and returns to home page
+         */
+        function resetApplication() {
+            // Clear intervals
+            if (AppState.progressInterval) {
+                clearInterval(AppState.progressInterval);
+                AppState.progressInterval = null;
+            }
+            
+            // Reset state
+            AppState.companyName = '';
+            AppState.reportData = null;
+            
+            // Reset form
+            Elements.researchForm.reset();
+            
+            // Reset progress display
+            Elements.progressBar.style.width = '0%';
+            Elements.agentStatus.textContent = 'Initializing research agents...';
+            
+            // Navigate back to home
+            navigateToPage('home');
+        }
+
+        /**
+         * Event listener setup
+         * Binds all interactive elements to their respective handlers
+         */
+        function initializeEventListeners() {
+            Elements.researchForm.addEventListener('submit', handleFormSubmission);
+            Elements.downloadBtn.addEventListener('click', handleReportDownload);
+            Elements.newReportBtn.addEventListener('click', resetApplication);
+            Elements.shareBtn.addEventListener('click', handleReportShare);
+            
+            // Enhanced form input experience
+            const companyInput = document.getElementById('company');
+            companyInput.addEventListener('input', function() {
+                // Remove any validation styling as user types
+                this.style.borderColor = '';
+            });
+        }
+
+        /**
+         * Application initialization
+         * Sets up the application when DOM is fully loaded
+         */
+        function initializeApplication() {
+            initializeEventListeners();
+            
+            // Set initial page state
+            navigateToPage('home');
+            
+            // Focus on company input for immediate use
+            document.getElementById('company').focus();
+        }
+
+        // Initialize application when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApplication);
+        } else {
+            initializeApplication();
+        }
+
+        // Handle page reload/refresh cleanup
+        window.addEventListener('beforeunload', function() {
+            if (AppState.progressInterval) {
+                clearInterval(AppState.progressInterval);
+            }
+        });
+    </script>
+</body>
+</html>
